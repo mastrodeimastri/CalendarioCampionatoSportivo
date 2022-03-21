@@ -48,6 +48,24 @@ cod calendarioGiornate[19][10] = {
 
 };
 
+void Calendario :: prepend(list& t, int el)
+{   //questo metodo sopravvive anche alla morte dello scope
+    list nuova;
+    nuova = new code;
+    nuova->info = el;
+    nuova->next = t;
+    t = nuova;
+}
+
+void Calendario :: append(list& t, int el)                  //Append fatta con metodo ricorsivo
+{
+    if(t == nullptr)
+    prepend(t,el);
+    else
+    append(t->next, el);
+    
+}
+
 void Calendario :: costruzioneCalendario()
 {
 
