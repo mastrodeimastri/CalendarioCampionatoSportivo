@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
+#include <string>
 #include "squadra.hpp"
 
 #define     N_GIORNATE          19
@@ -24,13 +25,15 @@ class Calendario
 
         typedef code* list;
 
-        void prepend(list& t, int el);
-        void append(list& t, int el);    
-
-
+        void prepend(list& , int );
+        void append(list& , int );    
+        void copyVector();
+        
         std::vector <squadra> squadreCampionato;
         std::vector <squadra> sorted;
         std::vector <partita> gironeDiAndata[N_GIORNATE];
+        std::vector <partita> gironeDiRitorno[N_GIORNATE];
+        std::vector <std::string> nomiSquadre;
         list sorteggiati;
 
         void sorteggi(list&);
@@ -38,9 +41,10 @@ class Calendario
     
     public:
         Calendario();
-        void printCalendario(int);
+        void SetNames();
+        void printCalendario();
         void costruzioneCalendario();
-
+        void ritorno();
 };
 
 void randomSort(std::vector <squadra>&);

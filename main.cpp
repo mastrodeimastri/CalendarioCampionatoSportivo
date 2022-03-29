@@ -3,6 +3,7 @@
 #include <ctime>
 #include <vector>
 #include <algorithm>
+#include <string>
 #include "main.hpp"
 
 
@@ -59,27 +60,47 @@ void Calendario :: prepend(list& t, int el)
 
 void Calendario :: append(list& t, int el)                  //Append fatta con metodo ricorsivo
 {
-    if(t == nullptr)
-    prepend(t,el);
-    else
-    append(t->next, el);
+    if(!t) prepend(t,el);
+    else if(t)  append(t->next, el);
     
+}
+
+void Calendario :: copyVector()
+{
+    for(int i(0); i < 19; i++)
+        for(int j(0); j < 10; j++) 
+            gironeDiRitorno[i].push_back(partita(calendarioGiornate[i][j].cod2,calendarioGiornate[i][j].cod1, sorted));
+
+}
+
+void Calendario :: SetNames()
+{
+    for(int i(0); i < 20; i++)
+    {
+        std::string name;
+        std::cout<<"nome squadra "<< i << ": ";
+        std::cin>> name;
+        nomiSquadre.push_back(name);
+    }
 }
 
 void Calendario :: costruzioneCalendario()
 {
-
    sort();
 
    sorteggi(sorteggiati);
 
    for(int i(0); i < 19; i++)
-   {
        for(int j(0); j < 10; j++)
-       {
            gironeDiAndata[i].push_back(partita(calendarioGiornate[i][j].cod1,calendarioGiornate[i][j].cod2, sorted));
-       }         
-   }
+
+
+   copyVector();
+}
+
+void Calendario :: ritorno()
+{
+    
 }
 
 Calendario :: Calendario ()         // COSTRUTTORE CLASSE
@@ -87,7 +108,7 @@ Calendario :: Calendario ()         // COSTRUTTORE CLASSE
     srand(time(NULL));
 
     sorteggiati = nullptr;
-    //INIZIALIZZAZIONE SQUADRE
+    //squad initialization
     for(int i(0); i < 20; i++)
     {
         /*
@@ -105,19 +126,37 @@ Calendario :: Calendario ()         // COSTRUTTORE CLASSE
 
 }
 
-void Calendario::printCalendario(int giornata)
+void Calendario::printCalendario()
 {
-    for(int i(0); i < 10; i++)
+    //first round
+    for(int j(0); j < 19; j++)
     {
-        std::cout<< gironeDiAndata[giornata].at(i).squadra1->codice << " vs " << gironeDiAndata[giornata].at(i).squadra2->codice << std::endl;
+        std::cout<<"GIORNATA "<<j + 1<<":"<<std::endl;
+        std::cout<<std::endl;
+
+        for(int i(0); i < 10; i++)
+            std::cout<< nomiSquadre.at(gironeDiAndata[j].at(i).squadra1->codice) << " vs " << nomiSquadre.at(gironeDiAndata[j].at(i).squadra2->codice) << std::endl;
+
+        std::cout<<std::endl;
+    }
+    // second round
+    for(int j(0); j < 19; j++)
+    {
+        std::cout<<"GIORNATA "<<j + 1<<":"<<std::endl;
+        std::cout<<std::endl;
+        for(int i(0); i < 10; i++)
+
+            std::cout<< nomiSquadre.at(gironeDiRitorno[j].at(i).squadra1->codice) << " vs " << nomiSquadre.at(gironeDiRitorno[j].at(i).squadra2->codice) << std::endl;
+
+        std::cout<<std::endl;
     }
 }
 
 int main()
 {
     Calendario serieA;
-
-    serieA.printCalendario(0);
+    serieA.SetNames();
+    serieA.printCalendario();
 
     return 0;
 }
